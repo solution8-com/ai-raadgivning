@@ -4,8 +4,19 @@
 > micro-sites will later align to. Context: `../brand/*.md` + `REDESIGN_PLAN.md`.
 
 ## Changelog
+- **2026-06-06 (d)** — **Full multi-page site designed.** Added shared `Layout`
+  (Header/Footer/scroll-reset), `usePageMeta` (per-route title/description/canonical/OG),
+  `PageHeader` + reusable `CtaBand`. Built pages: `/ydelser`, `/afdelinger` + 8
+  data-driven `/afdelinger/:slug` (real content distilled from the Marketing `.docx`
+  files via a content sub-agent), `/cases`, `/om-os`, `/artikler` (links to the
+  videnssites), `/book` (inline Calendly + agenda), `/kontakt` (form), plus
+  `/tilgaengelighed` (a11y statement), `/privatlivspolitik`, `/handelsbetingelser`.
+  Header/Footer now use real routes; all "Book" CTAs → `/book`. Hardened the `Reveal`
+  scroll-animation so content can never stay hidden (in-view-on-mount + failsafe) —
+  important for upcoming prerender/SEO. `tsc` clean; `npm run build` OK (117 KB gzip).
+  Verified pages in headless Chrome. **Hosting decision: Azure SWA (NOT Netlify).**
 - **2026-06-06 (c)** — GitHub repo created + pushed: **`solution8-com/ai-raadgivning`**
-  (public). Netlify import + GoDaddy DNS still TODO.
+  (public). Azure SWA deploy + GoDaddy DNS still TODO (deferred — finishing design first).
 - **2026-06-06 (b)** — **Homepage v1 shipped (builds clean).** Scaffolded the project
   (cloned from the ai-compliance stack, pruned to needed shadcn components), themed to
   the official brand (Outfit/Inter self-hosted via `@fontsource`; light theme + navy
@@ -38,10 +49,13 @@ sections, Outfit/Inter, contrast-disciplined teal/cyan, WCAG 2.2 AA, JSON-LD, Da
 - [x] Brand system + design playbook + plan
 - [x] Project scaffold (Vite/TS/Tailwind/shadcn, brand tokens, fonts, logo assets)
 - [x] Homepage v1 (hero → footer) — builds clean, serves
-- [ ] Visual QA in browser + responsive/contrast audit (next session — no screenshot tool this session)
-- [ ] Secondary pages (services + 8 dept, cases, om os, artikler, book, kontakt)
-- [ ] SEO/JSON-LD per-route + prerender (reuse onepager `scripts/prerender.ts`)
-- [ ] Deploy (GitHub solution8-com + Netlify + GoDaddy DNS)
+- [x] Secondary pages (ydelser, afdelinger + 8 dept, cases, om-os, artikler, book, kontakt, legal/a11y)
+- [x] Per-route client-side meta (`usePageMeta`); shared Layout + CtaBand
+- [x] Headless-Chrome visual QA of key pages
+- [ ] Jacob to review → changes
+- [ ] Responsive/contrast audit pass + real Lighthouse/axe (once deployed)
+- [ ] Per-route prerender for SEO (reuse onepager `scripts/prerender.ts`)
+- [ ] Deploy: **Azure SWA** (GitHub `solution8-com/ai-raadgivning` + GoDaddy DNS) — deferred
 
 ## Known TODOs / gaps (v1)
 - **og-image.png** referenced in `index.html` but not yet generated (port the onepager

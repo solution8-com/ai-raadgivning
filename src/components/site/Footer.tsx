@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Logo } from "./Logo";
 import { CONTACT, DEPARTMENTS, MEMBERSHIPS, NAV } from "@/content/site";
@@ -39,10 +40,11 @@ export function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-white/70">
             {NAV.map((n) => (
               <li key={n.href}>
-                <a href={n.href} className="hover:text-cyan">{n.label}</a>
+                <Link to={n.href} className="hover:text-cyan">{n.label}</Link>
               </li>
             ))}
-            <li><a href="/kontakt" className="hover:text-cyan">Kontakt</a></li>
+            <li><Link to="/kontakt" className="hover:text-cyan">Kontakt</Link></li>
+            <li><Link to="/book" className="hover:text-cyan">Book et møde</Link></li>
           </ul>
         </nav>
 
@@ -51,7 +53,7 @@ export function Footer() {
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-white/70">
             {DEPARTMENTS.map((d) => (
               <li key={d.label}>
-                <a href={d.href} className="hover:text-cyan">{d.label}</a>
+                <Link to={d.href} className="hover:text-cyan">{d.label}</Link>
               </li>
             ))}
           </ul>
@@ -62,18 +64,14 @@ export function Footer() {
           <ul className="mt-4 space-y-2 text-sm text-white/70">
             {SITES.map((s) => (
               <li key={s.href}>
-                <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-cyan">
-                  {s.label}
-                </a>
+                <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-cyan">{s.label}</a>
               </li>
             ))}
           </ul>
           <h2 className="mt-6 text-sm font-semibold text-white">Medlem af</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
             {MEMBERSHIPS.map((m) => (
-              <li key={m} className="rounded-full border border-white/20 px-3 py-1 text-xs text-white/80">
-                {m}
-              </li>
+              <li key={m} className="rounded-full border border-white/20 px-3 py-1 text-xs text-white/80">{m}</li>
             ))}
           </ul>
         </nav>
@@ -83,9 +81,9 @@ export function Footer() {
         <div className="container flex flex-col items-center justify-between gap-3 py-6 text-xs text-white/60 sm:flex-row">
           <p>© {new Date().getFullYear()} {CONTACT.company} · {CONTACT.legal} · CVR {CONTACT.cvr}</p>
           <div className="flex gap-4">
-            <a href="/handelsbetingelser" className="hover:text-cyan">Handelsbetingelser</a>
-            <a href="/privatlivspolitik" className="hover:text-cyan">Privatlivspolitik</a>
-            <a href="/tilgaengelighed" className="hover:text-cyan">Tilgængelighed</a>
+            <Link to="/handelsbetingelser" className="hover:text-cyan">Handelsbetingelser</Link>
+            <Link to="/privatlivspolitik" className="hover:text-cyan">Privatlivspolitik</Link>
+            <Link to="/tilgaengelighed" className="hover:text-cyan">Tilgængelighed</Link>
           </div>
         </div>
       </div>

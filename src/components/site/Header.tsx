@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { Menu, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
@@ -9,15 +10,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Logo } from "./Logo";
-import { CONTACT, DEPARTMENTS } from "@/content/site";
+import { DEPARTMENTS } from "@/content/departments";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
-  { label: "AI-ydelser", href: "#ydelser" },
-  { label: "Cases", href: "#cases" },
-  { label: "Artikler", href: "#nyhedsbrev" },
-  { label: "Om os", href: "#om-os" },
+  { label: "AI-ydelser", to: "/ydelser" },
+  { label: "Cases", to: "/cases" },
+  { label: "Artikler", to: "/artikler" },
+  { label: "Om os", to: "/om-os" },
 ];
+
+const linkBase =
+  "rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-foreground";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -36,51 +40,43 @@ export function Header() {
       )}
     >
       <div className="container flex h-16 items-center justify-between gap-4 md:h-20">
-        <a href="#top" aria-label="AI Rådgivning – til forsiden" className="shrink-0">
+        <Link to="/" aria-label="AI Rådgivning – til forsiden" className="shrink-0">
           <Logo variant="dark" className="h-8 w-auto md:h-9" />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Hovedmenu">
-          <a href="#ydelser" className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground">
+          <NavLink to="/ydelser" className={({ isActive }) => cn(linkBase, isActive ? "text-teal" : "text-foreground/80")}>
             AI-ydelser
-          </a>
+          </NavLink>
           <DropdownMenu>
-            <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground data-[state=open]:bg-accent">
+            <DropdownMenuTrigger className={cn(linkBase, "inline-flex items-center gap-1 text-foreground/80 data-[state=open]:bg-accent")}>
               AI i afdelingen
               <ChevronDown className="h-4 w-4" aria-hidden />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-[420px] p-2">
-              <p className="px-2 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Find AI til din afdeling
-              </p>
+            <DropdownMenuContent align="start" className="min-w-[460px] p-2">
+              <Link to="/afdelinger" className="block rounded-md px-2 py-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:text-teal">
+                Find AI til din afdeling →
+              </Link>
               <div className="grid grid-cols-2 gap-1">
                 {DEPARTMENTS.map((d) => (
-                  <DropdownMenuItem key={d.label} asChild>
-                    <a href="#afdelinger" className="cursor-pointer rounded-md">
-                      {d.label}
-                    </a>
+                  <DropdownMenuItem key={d.slug} asChild>
+                    <Link to={`/afdelinger/${d.slug}`} className="cursor-pointer rounded-md">{d.label}</Link>
                   </DropdownMenuItem>
                 ))}
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
           {LINKS.slice(1).map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
-            >
+            <NavLink key={l.to} to={l.to} className={({ isActive }) => cn(linkBase, isActive ? "text-teal" : "text-foreground/80")}>
               {l.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
 
         <div className="flex items-center gap-2">
           <Button asChild className="hidden sm:inline-flex">
-            <a href={CONTACT.calendly} target="_blank" rel="noopener noreferrer">
-              Book et møde
-            </a>
+            <Link to="/book">Book et møde</Link>
           </Button>
 
           {/* Mobile menu */}
@@ -90,26 +86,27 @@ export function Header() {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[88vw] max-w-sm">
+            <SheetContent side="right" className="w-[88vw] max-w-sm overflow-y-auto">
               <nav className="mt-8 flex flex-col gap-1" aria-label="Mobilmenu">
                 <SheetClose asChild>
-                  <a href="#ydelser" className="rounded-md px-3 py-3 text-base font-medium hover:bg-accent">AI-ydelser</a>
+                  <Link to="/ydelser" className="rounded-md px-3 py-3 text-base font-medium hover:bg-accent">AI-ydelser</Link>
                 </SheetClose>
                 <SheetClose asChild>
-                  <a href="#afdelinger" className="rounded-md px-3 py-3 text-base font-medium hover:bg-accent">AI i afdelingen</a>
+                  <Link to="/afdelinger" className="rounded-md px-3 py-3 text-base font-medium hover:bg-accent">AI i afdelingen</Link>
                 </SheetClose>
                 {LINKS.slice(1).map((l) => (
-                  <SheetClose asChild key={l.href}>
-                    <a href={l.href} className="rounded-md px-3 py-3 text-base font-medium hover:bg-accent">
-                      {l.label}
-                    </a>
+                  <SheetClose asChild key={l.to}>
+                    <Link to={l.to} className="rounded-md px-3 py-3 text-base font-medium hover:bg-accent">{l.label}</Link>
                   </SheetClose>
                 ))}
-                <Button asChild className="mt-4">
-                  <a href={CONTACT.calendly} target="_blank" rel="noopener noreferrer">
-                    Book et møde
-                  </a>
-                </Button>
+                <SheetClose asChild>
+                  <Link to="/kontakt" className="rounded-md px-3 py-3 text-base font-medium hover:bg-accent">Kontakt</Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button asChild className="mt-4">
+                    <Link to="/book">Book et møde</Link>
+                  </Button>
+                </SheetClose>
               </nav>
             </SheetContent>
           </Sheet>
