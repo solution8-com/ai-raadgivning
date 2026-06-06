@@ -4,6 +4,8 @@
 > micro-sites will later align to. Context: `../brand/*.md` + `REDESIGN_PLAN.md`.
 
 ## Changelog
+- **2026-06-06 (c)** — GitHub repo created + pushed: **`solution8-com/ai-raadgivning`**
+  (public). Netlify import + GoDaddy DNS still TODO.
 - **2026-06-06 (b)** — **Homepage v1 shipped (builds clean).** Scaffolded the project
   (cloned from the ai-compliance stack, pruned to needed shadcn components), themed to
   the official brand (Outfit/Inter self-hosted via `@fontsource`; light theme + navy
