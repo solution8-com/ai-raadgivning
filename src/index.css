@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  AI Rådgivning — brand tokens (BRANDGUIDE, Jan 2025). LIGHT theme.
+  Locked palette (do not change the hex values these HSLs encode):
+    navy #0b1d47 · white #FFFFFF · teal #1C8C9B · icon-blue #3297C6
+    ice-blue #D0E7F0 · accent cyan #57FFFF (navy-only)
+  Fonts: Outfit (headings) + Inter (body), self-hosted via @fontsource (main.tsx).
+*/
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 12%;
+
+    /* teal #1C8C9B — primary CTA / links on light (AA on white) */
+    --primary: 187 69% 33%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 199 52% 95%;
+    --secondary-foreground: 222 47% 16%;
+
+    --muted: 210 30% 96%;
+    --muted-foreground: 215 18% 38%;
+
+    --accent: 199 52% 92%;
+    --accent-foreground: 222 47% 16%;
+
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 28% 88%;
+    --input: 214 28% 85%;
+    --ring: 187 69% 33%;
+
+    --radius: 0.75rem;
+
+    /* Locked brand colours */
+    --navy: 222 73% 16%; /* #0b1d47 */
+    --teal: 187 69% 33%; /* #1C8C9B */
+    --iconblue: 199 60% 49%; /* #3297C6 */
+    --iceblue: 199 52% 88%; /* #D0E7F0 */
+    --cyan: 180 100% 67%; /* #57FFFF */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    letter-spacing: -0.011em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: hsl(var(--teal) / 0.18);
+  }
+}
+
+@layer components {
+  /* Fluid heading scale (BRANDGUIDE: Outfit H1 65 / H2 50 / H3 35) */
+  .h1 {
+    @apply font-display font-bold leading-[1.07] tracking-tight;
+    font-size: clamp(2.4rem, 1.4rem + 4vw, 4.05rem);
+  }
+  .h2 {
+    @apply font-display font-semibold leading-[1.12] tracking-tight;
+    font-size: clamp(1.85rem, 1.2rem + 2.4vw, 3.1rem);
+  }
+  .h3 {
+    @apply font-display font-semibold leading-[1.2];
+    font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.9rem);
+  }
+  .lead {
+    @apply text-lg leading-relaxed text-muted-foreground md:text-xl;
+  }
+  .section {
+    @apply py-20 md:py-28;
+  }
+}
+
+@layer utilities {
+  .reveal {
+    @apply animate-fade-up;
+  }
+  /* Diagonal (triangle-motif) section edges */
+  .clip-slope-b {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3.5vw), 0 100%);
+  }
+  .clip-slope-t {
+    clip-path: polygon(0 3.5vw, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+/* A11y: visible keyboard focus */
+@layer base {
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius);
+    background: hsl(var(--teal));
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transform: translateY(-200%);
+    transition: transform 0.15s ease-out;
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+}
+
+/* A11y: respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
